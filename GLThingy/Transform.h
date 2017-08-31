@@ -25,9 +25,9 @@ public:
 		return posMatrix * rotMatrix * scaleMatrix;
 	}
 
-	inline vec3 GetPos() { return m_pos; };
-	inline vec3 GetRot() { return m_rot; };
-	inline vec3 GetScale() { return m_scale; };
+	inline vec3& GetPos() { return m_pos; };
+	inline vec3& GetRot() { return m_rot; };
+	inline vec3& GetScale() { return m_scale; };
 
 private:
 	vec3 m_pos;
