@@ -71,6 +71,7 @@ int main(int argc, char* argv[])
 	};*/
 
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
+	Mesh mesh2(".\\res\\monkey3.obj");
 
 	// This was in while, but doesn't need to
 	shader.Bind();
@@ -82,7 +83,7 @@ int main(int argc, char* argv[])
 
 		shader.Update(transform, camera);
 
-		mesh.Draw();
+		mesh2.Draw();
 
 		display.Update();
 

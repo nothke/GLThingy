@@ -31,7 +31,7 @@ Mesh::Mesh(const std::string & fileName)
 {
 	IndexedModel model = OBJModel(fileName).ToIndexedModel();
 
-
+	InitMesh(model);
 }
 
 void Mesh::Draw()

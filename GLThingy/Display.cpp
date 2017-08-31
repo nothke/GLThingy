@@ -46,6 +46,9 @@ Display::Display(int width, int height, const std::string& title)
 	}
 
 	isClosed = false;
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 
 Display::~Display()
