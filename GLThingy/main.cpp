@@ -7,6 +7,10 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Transform.h"
+#include "Camera.h"
+
+#define WIDTH 800
+#define HEIGHT 600
 
 using namespace std;
 
@@ -46,6 +50,8 @@ int main(int argc, char* argv[])
 
 	Shader shader(".\\res\\basicShader");
 	Texture texture(".\\res\\rocket.png");
+
+	Camera camera(vec3(0, 0, -0.3f), 70.0f, (float)WIDTH / HEIGHT, 0.01f, 1000);
 
 	Transform transform;
 
