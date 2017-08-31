@@ -14,30 +14,6 @@
 
 using namespace std;
 
-Mesh Triangle()
-{
-	Vertex vertices[] = {
-		Vertex(vec3(-0.5f, -0.5f, 0), vec2(0, 0)),
-		Vertex(vec3(0, 0.5f, 0), vec2(0.5f, 1)),
-		Vertex(vec3(0.5f, -0.5f, 0), vec2(1, 0))
-	};
-
-	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
-	return mesh;
-}
-
-Mesh* TrianglePtr()
-{
-	Vertex vertices[] = {
-		Vertex(vec3(-0.5f, -0.5f, 0), vec2(0, 0)),
-		Vertex(vec3(0, 0.5f, 0), vec2(0.5f, 1)),
-		Vertex(vec3(0.5f, -0.5f, 0), vec2(1, 0))
-	};
-
-	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
-	return &mesh;
-}
-
 int main(int argc, char* argv[])
 {
 	// Hide console:
@@ -58,18 +34,22 @@ int main(int argc, char* argv[])
 	float counter = 0;
 
 	//TRIANGLE
-	/*
+
 	Vertex vertices[] = {
 		Vertex(vec3(-0.5f, -0.5f, 0), vec2(0, 0)),
 		Vertex(vec3(0, 0.5f, 0), vec2(0.5f, 1)),
 		Vertex(vec3(0.5f, -0.5f, 0), vec2(1, 0))
-	};*/
+	};
+
+	unsigned int indices[]{ 0, 1, 2 };
 
 	//PYRAMID
 
+	/*
 	const float depth = 0.5f;
 	const float height = 0.5f;
 
+	/*
 	Vertex vertices[] = {
 		// FRONT
 		Vertex(vec3(-depth, -height, -depth), vec2(0, 0)),
@@ -88,9 +68,9 @@ int main(int argc, char* argv[])
 		Vertex(vec3(depth, -height * 2, -depth), vec2(0, 0)),
 		Vertex(vec3(0, height, 0), vec2(0.5f, 1)),
 		Vertex(vec3(depth, -height * 2, depth), vec2(1, 0)),
-	};
+	};*/
 
-	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
 
 	// This was in while, but doesn't need to
 	shader.Bind();
