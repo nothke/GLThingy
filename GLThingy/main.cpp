@@ -27,14 +27,14 @@ int main(int argc, char* argv[])
 	Shader shader(".\\res\\basicShader");
 	Texture texture(".\\res\\rocket.png");
 
-	Camera camera(vec3(0, 0, -5), 70.0f, (float)WIDTH / HEIGHT, 0.01f, 1000);
+	Camera camera(vec3(0, -0.2f, -3), 70.0f, (float)WIDTH / HEIGHT, 0.01f, 1000);
 
 	Transform transform;
 
 	float counter = 0;
 
 	//TRIANGLE
-
+	/*
 	Vertex vertices[] = {
 		Vertex(vec3(-0.5f, -0.5f, 0), vec2(0, 0)),
 		Vertex(vec3(0, 0.5f, 0), vec2(0.5f, 1)),
@@ -42,36 +42,51 @@ int main(int argc, char* argv[])
 	};
 
 	unsigned int indices[]{ 0, 1, 2 };
+	*/
 
 	//PYRAMID
 
-	/*
-	const float depth = 0.5f;
-	const float height = 0.5f;
 
-	/*
+	const float depth = 1;
+	const float height = 0.7f;
+
+
 	Vertex vertices[] = {
-		// FRONT
-		Vertex(vec3(-depth, -height, -depth), vec2(0, 0)),
-		Vertex(vec3(0, height, 0), vec2(0.5f, 1)),
-		Vertex(vec3(depth, -height, -depth), vec2(1, 0)),
+		Vertex(vec3(-depth, -height, -depth), vec2(0, 0.2f)),
+		Vertex(vec3(-depth, -height, depth), vec2(0, 1)),
+		Vertex(vec3(depth, -height, depth), vec2(0.3f, 0)),
+		Vertex(vec3(depth, -height, -depth), vec2(0, 1)),
 
-		// BACK
-		Vertex(vec3(-depth, -height, depth), vec2(0, 0)),
 		Vertex(vec3(0, height, 0), vec2(0.5f, 1)),
-		Vertex(vec3(depth, -height, depth), vec2(1, 0)),
+	};
 
-		Vertex(vec3(-depth, -height, -depth), vec2(0, 0)),
-		Vertex(vec3(0, height, 0), vec2(0.5f, 1)),
-		Vertex(vec3(-depth, -height, depth), vec2(1, 0)),
-
-		Vertex(vec3(depth, -height * 2, -depth), vec2(0, 0)),
-		Vertex(vec3(0, height, 0), vec2(0.5f, 1)),
-		Vertex(vec3(depth, -height * 2, depth), vec2(1, 0)),
-	};*/
+	unsigned int indices[]{
+		0, 1, 4,
+		1, 2, 4,
+		2, 3, 4,
+		3, 0, 4
+	};
 
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
 	Mesh mesh2(".\\res\\monkey3.obj");
+
+	float backDistance = 5;
+	float backSize = 1;
+
+	Vertex backVertices[] = {
+		Vertex(vec3(-backSize, -backSize, backDistance), vec2(0, 0)),
+		Vertex(vec3(-backSize, +backSize, backDistance), vec2(0, 1)),
+		Vertex(vec3(+backSize, +backSize, backDistance), vec2(1, 1)),
+		Vertex(vec3(+backSize, -backSize, backDistance), vec2(1, 0))
+	};
+
+	unsigned int backIndices[]{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	Mesh backMesh(backVertices, sizeof(backVertices) / sizeof(backVertices[0]),
+		indices, sizeof(backIndices) / sizeof(backIndices[0]));
 
 	// This was in while, but doesn't need to
 	shader.Bind();
@@ -79,18 +94,20 @@ int main(int argc, char* argv[])
 
 	while (!display.IsClosed())
 	{
-		display.Clear(0.867f, 0.627f, 0.867f, 1);
+		display.Clear(0.9f, 0.427f, 0.9f, 1);
 
 		shader.Update(transform, camera);
 
+		//backMesh.Draw();
 		mesh2.Draw();
+
 
 		display.Update();
 
 		counter += 0.0001f;
 		//transform.GetPos().x = sinf(counter);
 		transform.GetRot().y = counter;
-		transform.GetRot().z = counter * 2;
+		//transform.GetRot().z = counter * 2;
 	}
 
 	return 0;
