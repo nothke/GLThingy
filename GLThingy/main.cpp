@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Transform.h"
 
 using namespace std;
 
@@ -22,6 +23,8 @@ int main(int argc, char* argv[])
 	Shader shader(".\\res\\basicShader");
 	Texture texture(".\\res\\rocket.png");
 
+	Transform transform;
+
 	Vertex vertices[] = {
 		Vertex(vec3(-0.5f, -0.5f, -0.2f), vec2(0, 0)),
 		Vertex(vec3(0, 0.5f, 0.2f), vec2(0.5f, 1)),
@@ -37,6 +40,7 @@ int main(int argc, char* argv[])
 
 		shader.Bind();
 		texture.Bind(0);
+		shader.Update(transform);
 		mesh.Draw();
 
 		display.Update();
