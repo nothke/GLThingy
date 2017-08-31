@@ -22,12 +22,12 @@ int main(int argc, char* argv[])
 
 	cout << "Hello!" << endl;
 
-	Display display(400, 300, "I'm doing just fine");
+	Display display(400, 300, "Yup, *I AM* doing just fine");
 
 	Shader shader(".\\res\\basicShader");
 	Texture texture(".\\res\\rocket.png");
 
-	Camera camera(vec3(0, -0.2f, -3), 70.0f, (float)WIDTH / HEIGHT, 0.01f, 1000);
+	Camera camera(vec3(0, -0.2f, -2.5), 70.0f, (float)WIDTH / HEIGHT, 0.01f, 1000);
 
 	Transform transform;
 
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 	};
 
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	Mesh mesh2(".\\res\\monkey3.obj");
+	Mesh mesh2(".\\res\\nomi.obj");
 
 	float backDistance = 5;
 	float backSize = 1;
@@ -92,9 +92,20 @@ int main(int argc, char* argv[])
 	shader.Bind();
 	texture.Bind(0);
 
+	Uint64 NOW = SDL_GetPerformanceCounter();
+	Uint64 LAST = 0;
+	double deltaTime = 0;
+
 	while (!display.IsClosed())
 	{
-		display.Clear(0.9f, 0.427f, 0.9f, 1);
+		LAST = NOW;
+		NOW = SDL_GetPerformanceCounter();
+
+		deltaTime = (double)((NOW - LAST) * 1000 / SDL_GetPerformanceFrequency());
+
+		/**Rendering**/
+
+		display.ClearColorDontClearDepth(0.9f, 0.427f, 0.9f, 1);
 
 		shader.Update(transform, camera);
 
@@ -104,10 +115,10 @@ int main(int argc, char* argv[])
 
 		display.Update();
 
-		counter += 0.0001f;
+		counter += 0.001f;
 		//transform.GetPos().x = sinf(counter);
-		transform.GetRot().y = counter;
-		//transform.GetRot().z = counter * 2;
+		transform.GetRot().y = counter * deltaTime;
+		transform.GetRot().z = counter * 0.3f * deltaTime;
 	}
 
 	return 0;
