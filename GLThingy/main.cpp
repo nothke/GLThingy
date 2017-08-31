@@ -10,6 +10,30 @@
 
 using namespace std;
 
+Mesh Triangle()
+{
+	Vertex vertices[] = {
+		Vertex(vec3(-0.5f, -0.5f, 0), vec2(0, 0)),
+		Vertex(vec3(0, 0.5f, 0), vec2(0.5f, 1)),
+		Vertex(vec3(0.5f, -0.5f, 0), vec2(1, 0))
+	};
+
+	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+	return mesh;
+}
+
+Mesh* TrianglePtr()
+{
+	Vertex vertices[] = {
+		Vertex(vec3(-0.5f, -0.5f, 0), vec2(0, 0)),
+		Vertex(vec3(0, 0.5f, 0), vec2(0.5f, 1)),
+		Vertex(vec3(0.5f, -0.5f, 0), vec2(1, 0))
+	};
+
+	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+	return &mesh;
+}
+
 int main(int argc, char* argv[])
 {
 	// Hide console:
@@ -18,7 +42,7 @@ int main(int argc, char* argv[])
 
 	cout << "Hello!" << endl;
 
-	Display display(400, 300, "Hey, I drew a triangle in C++!");
+	Display display(400, 300, "I'm doing just fine");
 
 	Shader shader(".\\res\\basicShader");
 	Texture texture(".\\res\\rocket.png");
@@ -27,10 +51,37 @@ int main(int argc, char* argv[])
 
 	float counter = 0;
 
+	//TRIANGLE
+	/*
 	Vertex vertices[] = {
 		Vertex(vec3(-0.5f, -0.5f, 0), vec2(0, 0)),
 		Vertex(vec3(0, 0.5f, 0), vec2(0.5f, 1)),
 		Vertex(vec3(0.5f, -0.5f, 0), vec2(1, 0))
+	};*/
+
+	//PYRAMID
+
+	const float depth = 0.5f;
+	const float height = 0.5f;
+
+	Vertex vertices[] = {
+		// FRONT
+		Vertex(vec3(-depth, -height, -depth), vec2(0, 0)),
+		Vertex(vec3(0, height, 0), vec2(0.5f, 1)),
+		Vertex(vec3(depth, -height, -depth), vec2(1, 0)),
+
+		// BACK
+		Vertex(vec3(-depth, -height, depth), vec2(0, 0)),
+		Vertex(vec3(0, height, 0), vec2(0.5f, 1)),
+		Vertex(vec3(depth, -height, depth), vec2(1, 0)),
+
+		Vertex(vec3(-depth, -height, -depth), vec2(0, 0)),
+		Vertex(vec3(0, height, 0), vec2(0.5f, 1)),
+		Vertex(vec3(-depth, -height, depth), vec2(1, 0)),
+
+		Vertex(vec3(depth, -height * 2, -depth), vec2(0, 0)),
+		Vertex(vec3(0, height, 0), vec2(0.5f, 1)),
+		Vertex(vec3(depth, -height * 2, depth), vec2(1, 0)),
 	};
 
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
@@ -44,6 +95,7 @@ int main(int argc, char* argv[])
 		display.Clear(0.867f, 0.627f, 0.867f, 1);
 
 		shader.Update(transform);
+
 		mesh.Draw();
 
 		display.Update();
@@ -51,7 +103,9 @@ int main(int argc, char* argv[])
 		counter += 0.0001f;
 		//transform.GetPos().x = sinf(counter);
 		transform.GetRot().y = counter;
+		transform.GetRot().z = counter * 2;
 	}
 
 	return 0;
 }
+
