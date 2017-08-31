@@ -1,5 +1,6 @@
 #include <iostream>
 #include <GL/glew.h>
+#include <Windows.h>
 
 #include "Display.h"
 #include "Shader.h"
@@ -10,6 +11,10 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+	// Hide console:
+	//auto myConsole = GetConsoleWindow();
+	//ShowWindow(myConsole, 0);
+
 	cout << "Hello!" << endl;
 
 	Display display(400, 300, "Hey, I drew a triangle in C++!");

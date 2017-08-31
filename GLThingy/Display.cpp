@@ -15,7 +15,26 @@ Display::Display(int width, int height, const std::string& title)
 	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+	SDL_DisplayMode current;
+	SDL_GetDesktopDisplayMode(0, &current);
+
+	float ddpi, hdpi, vdpi;
+	auto noDpi = SDL_GetDisplayDPI(0, &ddpi, &hdpi, &vdpi);
+
+	//width = current.w;
+	//height = current.h;
+
+	//width = 1920;
+	//height = 1080;
+
+	std::cout << current.w << " " << current.h << std::endl;
+
+	if (noDpi != 0) SDL_Log("No dpi values");
+
+	SDL_Log("Display: current display mode is %dx%dpx @ %dhz. ddpi: %d, hdpi: %d, vdpi: %d", current.w, current.h, current.refresh_rate, ddpi, hdpi, vdpi);
+
 	m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);
+	//SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
 	m_glContext = SDL_GL_CreateContext(m_window);
 
