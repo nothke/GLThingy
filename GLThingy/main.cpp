@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
 	Shader shader(".\\res\\basicShader");
 	Texture texture(".\\res\\rocket.png");
 
-	Camera camera(vec3(0, 0, -0.3f), 70.0f, (float)WIDTH / HEIGHT, 0.01f, 1000);
+	Camera camera(vec3(0, 0, -5), 70.0f, (float)WIDTH / HEIGHT, 0.01f, 1000);
 
 	Transform transform;
 
@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
 	{
 		display.Clear(0.867f, 0.627f, 0.867f, 1);
 
-		shader.Update(transform);
+		shader.Update(transform, camera);
 
 		mesh.Draw();
 
