@@ -123,11 +123,17 @@ int main(int argc, char* argv[])
 	float cameraZ = 0;
 	float cameraZVelo = 0;
 
+	int lastMouseX = 0;
+	int lastMouseY = 0;
+
 	while (!display.IsClosed())
 	{
 		/**INPUT**/
 
 		SDL_Event event;
+
+		int mouseX = 0;
+		int mouseY = 0;
 
 		while (SDL_PollEvent(&event))
 		{
@@ -135,14 +141,31 @@ int main(int argc, char* argv[])
 				cout << "LEFT!" << endl;
 
 			if (event.key.keysym.sym == SDLK_w)
+			{
 				if (event.type == SDL_KEYDOWN)
 					cameraZVelo = 0.1f;
 				else cameraZVelo = 0;
+			}
 
 			if (event.key.keysym.sym == SDLK_s)
+			{
 				if (event.type == SDL_KEYDOWN)
 					cameraZVelo = -0.1f;
 				else cameraZVelo = 0;
+			}
+
+			if (event.type == SDL_MOUSEMOTION)
+			{
+				mouseX = lastMouseX - event.motion.x;
+				lastMouseX = event.motion.x;
+
+				mouseY = lastMouseY - event.motion.y;
+				lastMouseY = event.motion.y;
+
+				//camera.m_position.x += mouseX * 0.001f;
+				camera.m_position.y += mouseY * 0.01f;
+				//camera.m_position.y += mouseY * 0.1f;
+			}
 		}
 
 		cameraZ += cameraZVelo;
@@ -162,10 +185,12 @@ int main(int argc, char* argv[])
 		counter += 0.001f;
 		//transform.GetPos().x = sinf(counter);
 		transform.GetRot().y = counter;
-		transform.GetRot().z = counter * 0.3f;
+		//transform.GetRot().z = counter * 0.3f;
 
-		camera.m_position = vec3(0, 0, cameraZ);
+		camera.m_position.z = cameraZ;
 
+		camera.m_forward = -normalize(camera.m_position);
+		
 		SDL_Delay(TimeLeft());
 	}
 

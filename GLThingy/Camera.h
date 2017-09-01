@@ -23,12 +23,11 @@ public:
 	}
 
 	vec3 m_position;
+	vec3 m_forward;
+	vec3 m_up;
 
 private:
 
 	mat4 m_perspective;
-	
-	vec3 m_forward;
-	vec3 m_up;
 };
 
