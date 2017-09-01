@@ -180,8 +180,8 @@ int main(int argc, char* argv[])
 
 		/**Rendering**/
 
-		display.Clear(0, 0, 0, 1);
-		//display.Clear(0.9f, 0.427f, 0.9f, 1);
+		//display.Clear(0, 0, 0, 1);
+		display.Clear(0.9f, 0.427f, 0.9f, 1);
 
 		shader.Update(transform, camera);
 
