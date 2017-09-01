@@ -6,16 +6,18 @@ static GLuint CreateShader(const std::string& text, GLenum shaderType);
 
 Shader::Shader(const std::string & fileName)
 {
+	// Create shader program
 	m_program = glCreateProgram();
 
 	// Load the shader
 	m_shaders[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
 	m_shaders[1] = CreateShader(LoadShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
 
+	// Attach shaders to the program
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)
 		glAttachShader(m_program, m_shaders[i]);
 
-	// Pass vertex parameters
+	// Pass vertex attributes
 	glBindAttribLocation(m_program, 0, "position");
 	glBindAttribLocation(m_program, 1, "texCoord");
 	glBindAttribLocation(m_program, 2, "normal");
@@ -26,6 +28,14 @@ Shader::Shader(const std::string & fileName)
 	glValidateProgram(m_program);
 	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader program is invalid: ");
 
+	// Assign textures
+	auto texLoc = glGetUniformLocation(m_program, "");
+	glUniform1i(texLoc, 0);
+
+	// Texture uniforms
+	m_uniforms[DIFFUSE_MAP_U] = glGetUniformLocation(m_program, "diffuseMap");
+	m_uniforms[BRDF_MAP_U] = glGetUniformLocation(m_program, "brdfMap");
+
 	// Transform .. something?
 	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
 }
@@ -33,6 +43,9 @@ Shader::Shader(const std::string & fileName)
 void Shader::Bind()
 {
 	glUseProgram(m_program);
+
+	glUniform1i(m_uniforms[DIFFUSE_MAP_U], 0);
+	glUniform1i(m_uniforms[BRDF_MAP_U], 1);
 }
 
 void Shader::Update(const Transform & transform, const Camera & camera)

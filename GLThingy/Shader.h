@@ -24,6 +24,9 @@ private:
 
 	enum
 	{
+		DIFFUSE_MAP_U,
+		BRDF_MAP_U,
+
 		TRANSFORM_U,
 
 		NUM_UNIFORMS

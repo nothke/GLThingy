@@ -116,10 +116,12 @@ int main(int argc, char* argv[])
 		indices, sizeof(backIndices) / sizeof(backIndices[0]));
 		*/
 
-		// This was in while, but doesn't need to
+	// This was in while, but doesn't need to
 	shader.Bind();
-	//texture.Bind(0);
 
+	texture.Bind(0);
+
+	//brickTexture.Bind(0);
 	brdfTexture.Bind(1);
 
 	Uint64 NOW = SDL_GetPerformanceCounter();
