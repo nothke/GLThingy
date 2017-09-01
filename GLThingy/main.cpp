@@ -45,6 +45,7 @@ int main(int argc, char* argv[])
 
 	Shader shader(".\\res\\basicShader");
 	Texture texture(".\\res\\stojadin_body_a.png");
+	Texture brickTexture(".\\res\\rocket.png");
 
 	Camera camera(vec3(0, 0, -5), 70.0f, (float)WIDTH / HEIGHT, 0.2f, 1000);
 
@@ -91,6 +92,7 @@ int main(int argc, char* argv[])
 	*/
 
 	Mesh mesh2(".\\res\\stojadin2.obj");
+	Mesh meshMonkey(".\\res\\monkey3.obj");
 
 	/*
 	float backDistance = 5;
@@ -166,8 +168,8 @@ int main(int argc, char* argv[])
 
 				angle = mouseX * 0.01f;
 
-				camera.m_position.x = cosf(angle) * 10;
-				camera.m_position.z = sinf(angle) * 10;
+				//camera.m_position.x = cosf(angle) * 10;
+				//camera.m_position.z = sinf(angle) * 10;
 
 				//camera.m_position.x += mouseX * 0.1f;
 				//camera.m_position.y += mouseY * 0.01f;
@@ -184,7 +186,10 @@ int main(int argc, char* argv[])
 		shader.Update(transform, camera);
 
 		//backMesh.Draw();
+		texture.Bind(0);
 		mesh2.Draw();
+		brickTexture.Bind(0);
+		meshMonkey.Draw();
 
 		display.Update();
 
