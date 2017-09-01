@@ -47,6 +47,8 @@ int main(int argc, char* argv[])
 	Texture texture(".\\res\\stojadin_body_a.png");
 	Texture brickTexture(".\\res\\rocket.png");
 
+	Texture brdfTexture(".\\res\\brdf.png");
+
 	Camera camera(vec3(0, 0, -5), 70.0f, (float)WIDTH / HEIGHT, 0.2f, 1000);
 
 	Transform transform;
@@ -116,13 +118,15 @@ int main(int argc, char* argv[])
 
 		// This was in while, but doesn't need to
 	shader.Bind();
-	texture.Bind(0);
+	//texture.Bind(0);
+
+	brdfTexture.Bind(1);
 
 	Uint64 NOW = SDL_GetPerformanceCounter();
 	Uint64 LAST = 0;
 	double deltaTime = 0;
 
-	float cameraZ = 0;
+	float cameraZ = -4;
 	float cameraZVelo = 0;
 
 	int lastMouseX = 0;
@@ -180,15 +184,15 @@ int main(int argc, char* argv[])
 
 		/**Rendering**/
 
-		//display.Clear(0, 0, 0, 1);
-		display.Clear(0.9f, 0.427f, 0.9f, 1);
+		display.Clear(0, 0, 0, 1);
+		//display.Clear(0.9f, 0.427f, 0.9f, 1);
 
 		shader.Update(transform, camera);
 
 		//backMesh.Draw();
-		texture.Bind(0);
-		mesh2.Draw();
-		brickTexture.Bind(0);
+		//texture.Bind(0);
+		//mesh2.Draw();
+		//brickTexture.Bind(0);
 		meshMonkey.Draw();
 
 		display.Update();
