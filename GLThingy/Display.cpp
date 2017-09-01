@@ -21,6 +21,10 @@ Display::Display(int width, int height, const std::string& title)
 	SDL_DisplayMode current;
 	SDL_GetDesktopDisplayMode(0, &current);
 
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+
+	glEnable(GL_MULTISAMPLE);
+
 	//width = current.w;
 	//height = current.h;
 

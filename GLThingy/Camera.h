@@ -19,7 +19,7 @@ public:
 
 	inline mat4 GetViewProjection() const
 	{
-		return m_perspective * lookAt(m_position, m_position + m_forward, m_position + m_up);
+		return m_perspective * lookAt(m_position, m_position + m_forward, m_up);
 	}
 
 	vec3 m_position;

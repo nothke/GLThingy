@@ -126,6 +126,8 @@ int main(int argc, char* argv[])
 	int lastMouseX = 0;
 	int lastMouseY = 0;
 
+	float angle = 0;
+
 	while (!display.IsClosed())
 	{
 		/**INPUT**/
@@ -162,9 +164,13 @@ int main(int argc, char* argv[])
 				mouseY = lastMouseY - event.motion.y;
 				lastMouseY = event.motion.y;
 
-				//camera.m_position.x += mouseX * 0.001f;
-				camera.m_position.y += mouseY * 0.01f;
-				//camera.m_position.y += mouseY * 0.1f;
+				angle = mouseX * 0.01f;
+
+				camera.m_position.x = cosf(angle) * 10;
+				camera.m_position.z = sinf(angle) * 10;
+
+				//camera.m_position.x += mouseX * 0.1f;
+				//camera.m_position.y += mouseY * 0.01f;
 			}
 		}
 
@@ -190,7 +196,7 @@ int main(int argc, char* argv[])
 		camera.m_position.z = cameraZ;
 
 		camera.m_forward = -normalize(camera.m_position);
-		
+
 		SDL_Delay(TimeLeft());
 	}
 
