@@ -1,6 +1,7 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <Windows.h>
+#include <SDL2\SDL.h>
 
 #include "Display.h"
 #include "Shader.h"
@@ -13,6 +14,24 @@
 #define HEIGHT 720
 
 using namespace std;
+
+const float tickInterval = 1000.0f / 60.0f;
+
+Uint32 TimeLeft()
+{
+	static Uint32 next_time = 0;
+
+	Uint32 now;
+
+	now = SDL_GetTicks();
+
+	if (next_time <= now) {
+		next_time = now + tickInterval;
+		return 0;
+	}
+
+	return(next_time - now);
+}
 
 int main(int argc, char* argv[])
 {
@@ -101,13 +120,32 @@ int main(int argc, char* argv[])
 	Uint64 LAST = 0;
 	double deltaTime = 0;
 
+	float cameraZ = 0;
+	float cameraZVelo = 0;
+
 	while (!display.IsClosed())
 	{
-		LAST = NOW;
-		NOW = SDL_GetPerformanceCounter();
+		/**INPUT**/
 
-		deltaTime = (double)((NOW - LAST) * 1000 / SDL_GetPerformanceFrequency());
-		float dt = (float)deltaTime;
+		SDL_Event event;
+
+		while (SDL_PollEvent(&event))
+		{
+			if (event.key.keysym.sym == SDLK_LEFT)
+				cout << "LEFT!" << endl;
+
+			if (event.key.keysym.sym == SDLK_w)
+				if (event.type == SDL_KEYDOWN)
+					cameraZVelo = 0.1f;
+				else cameraZVelo = 0;
+
+			if (event.key.keysym.sym == SDLK_s)
+				if (event.type == SDL_KEYDOWN)
+					cameraZVelo = -0.1f;
+				else cameraZVelo = 0;
+		}
+
+		cameraZ += cameraZVelo;
 
 		/**Rendering**/
 
@@ -126,7 +164,9 @@ int main(int argc, char* argv[])
 		transform.GetRot().y = counter;
 		transform.GetRot().z = counter * 0.3f;
 
-		camera.m_position = vec3(0, 0, sinf(counter) * 10);
+		camera.m_position = vec3(0, 0, cameraZ);
+
+		SDL_Delay(TimeLeft());
 	}
 
 	return 0;

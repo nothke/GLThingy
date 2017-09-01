@@ -21,9 +21,6 @@ Display::Display(int width, int height, const std::string& title)
 	SDL_DisplayMode current;
 	SDL_GetDesktopDisplayMode(0, &current);
 
-	float ddpi, hdpi, vdpi;
-	auto noDpi = SDL_GetDisplayDPI(0, &ddpi, &hdpi, &vdpi);
-
 	//width = current.w;
 	//height = current.h;
 
@@ -32,9 +29,7 @@ Display::Display(int width, int height, const std::string& title)
 
 	std::cout << current.w << " " << current.h << std::endl;
 
-	if (noDpi != 0) SDL_Log("No dpi values");
-
-	SDL_Log("Display: current display mode is %dx%dpx @ %dhz. ddpi: %d, hdpi: %d, vdpi: %d", current.w, current.h, current.refresh_rate, ddpi, hdpi, vdpi);
+	SDL_Log("Display: current display mode is %dx%dpx @ %dhz.", current.w, current.h, current.refresh_rate);
 
 	m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);
 	if (FULLSCREEN)
