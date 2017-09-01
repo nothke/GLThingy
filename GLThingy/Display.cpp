@@ -5,8 +5,6 @@
 
 Display::Display(int width, int height, const std::string& title)
 {
-	std::cout << "yo" << std::endl;
-
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -21,15 +19,9 @@ Display::Display(int width, int height, const std::string& title)
 	SDL_DisplayMode current;
 	SDL_GetDesktopDisplayMode(0, &current);
 
-	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-
-	glEnable(GL_MULTISAMPLE);
-
-	//width = current.w;
-	//height = current.h;
-
-	//width = 1920;
-	//height = 1080;
+	// Antialiasing, not working
+	//SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	//glEnable(GL_MULTISAMPLE);
 
 	std::cout << current.w << " " << current.h << std::endl;
 

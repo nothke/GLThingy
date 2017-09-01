@@ -12,22 +12,36 @@ public:
 	{
 		m_perspective = perspective(fov, aspect, zNear, zFar);
 
-		m_position = pos;
-		m_forward = vec3(0, 0, 1);
-		m_up = vec3(0, 1, 0);
+		this->fov = fov;
+		this->aspect = aspect;
+		this->zNear = zNear;
+		this->zFar = zFar;
+
+		position = pos;
+		forward = vec3(0, 0, 1);
+		up = vec3(0, 1, 0);
+	}
+
+	inline void UpdateViewParameters()
+	{
+		m_perspective = perspective(fov, aspect, zNear, zFar);
 	}
 
 	inline mat4 GetViewProjection() const
 	{
-		return m_perspective * lookAt(m_position, m_position + m_forward, m_up);
+		return m_perspective * lookAt(position, position + forward, up);
 	}
 
-	vec3 m_position;
-	vec3 m_forward;
-	vec3 m_up;
+	vec3 position;
+	vec3 forward;
+	vec3 up;
+
+	float fov;
+	float aspect;
+	float zNear;
+	float zFar;
 
 private:
-
 	mat4 m_perspective;
 };
 

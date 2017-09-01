@@ -26,7 +26,7 @@ Shader::Shader(const std::string & fileName)
 	glLinkProgram(m_program);
 	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader program failed to link: ");
 	glValidateProgram(m_program);
-	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader program is invalid: ");
+	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Shader program is invalid: ");
 
 	// Assign textures
 	auto texLoc = glGetUniformLocation(m_program, "");
@@ -36,7 +36,8 @@ Shader::Shader(const std::string & fileName)
 	m_uniforms[DIFFUSE_MAP_U] = glGetUniformLocation(m_program, "diffuseMap");
 	m_uniforms[BRDF_MAP_U] = glGetUniformLocation(m_program, "brdfMap");
 
-	// Transform .. something?
+	// Matrix uniforms
+	m_uniforms[CAMERA_POSITION_U] = glGetUniformLocation(m_program, "cameraPosition");
 	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
 }
 
@@ -52,6 +53,11 @@ void Shader::Update(const Transform & transform, const Camera & camera)
 {
 	mat4 model = camera.GetViewProjection() * transform.GetModel();
 	glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
+
+	glUniform3f(m_uniforms[CAMERA_POSITION_U],
+		camera.position.x,
+		camera.position.y,
+		camera.position.z);
 }
 
 
@@ -129,7 +135,6 @@ Shader::~Shader()
 	{
 		glDetachShader(m_program, m_shaders[i]);
 		glDeleteShader(m_shaders[i]);
-
 	}
 
 	glDeleteProgram(m_program);

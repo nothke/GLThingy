@@ -43,13 +43,17 @@ int main(int argc, char* argv[])
 
 	Display display(WIDTH, HEIGHT, "Yup, *I AM* doing just fine");
 
+	display.Clear(0, 0, 0, 1);
+
+	SDL_Delay(100);
+
 	Shader shader(".\\res\\basicShader");
 	Texture texture(".\\res\\stojadin_body_a.png");
-	Texture brickTexture(".\\res\\rocket.png");
+	Texture brickTexture(".\\res\\white.png");
 
-	Texture brdfTexture(".\\res\\brdf.png");
+	Texture brdfTexture(".\\res\\brdf4.png");
 
-	Camera camera(vec3(0, 0, -5), 70.0f, (float)WIDTH / HEIGHT, 0.2f, 1000);
+	Camera camera(vec3(0, 0, -5), 7000.0f, (float)WIDTH / HEIGHT, 1.0f, 1000);
 
 	Transform transform;
 
@@ -116,10 +120,10 @@ int main(int argc, char* argv[])
 		indices, sizeof(backIndices) / sizeof(backIndices[0]));
 		*/
 
-	// This was in while, but doesn't need to
+		// This was in while, but doesn't need to
 	shader.Bind();
 
-	texture.Bind(0);
+	brickTexture.Bind(0);
 
 	//brickTexture.Bind(0);
 	brdfTexture.Bind(1);
@@ -136,6 +140,8 @@ int main(int argc, char* argv[])
 
 	float angle = 0;
 
+	float fov = camera.fov / 100.0f;
+
 	while (!display.IsClosed())
 	{
 		/**INPUT**/
@@ -145,10 +151,24 @@ int main(int argc, char* argv[])
 		int mouseX = 0;
 		int mouseY = 0;
 
+
+
 		while (SDL_PollEvent(&event))
 		{
 			if (event.key.keysym.sym == SDLK_LEFT)
 				cout << "LEFT!" << endl;
+
+			if (event.key.keysym.sym == SDLK_UP)
+			{
+				fov += 1;
+				cout << fov << endl;
+			}
+
+			if (event.key.keysym.sym == SDLK_DOWN)
+			{
+				fov -= 1;
+				cout << fov << endl;
+			}
 
 			if (event.key.keysym.sym == SDLK_w)
 			{
@@ -204,9 +224,12 @@ int main(int argc, char* argv[])
 		transform.GetRot().y = counter;
 		//transform.GetRot().z = counter * 0.3f;
 
-		camera.m_position.z = cameraZ;
+		camera.position.z = cameraZ;
 
-		camera.m_forward = -normalize(camera.m_position);
+		camera.forward = -normalize(camera.position);
+
+		camera.fov = fov / 100.0f;
+		camera.UpdateViewParameters();
 
 		SDL_Delay(TimeLeft());
 	}
