@@ -12,6 +12,7 @@ public:
 
 	void Clear();
 	void Clear(float r, float g, float b, float a);
+	void ClearColorDontClearDepth(float r, float g, float b, float a);
 
 	void Update();
 

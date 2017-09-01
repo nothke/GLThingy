@@ -9,8 +9,8 @@
 #include "Transform.h"
 #include "Camera.h"
 
-#define WIDTH 800
-#define HEIGHT 600
+#define WIDTH 1280
+#define HEIGHT 720
 
 using namespace std;
 
@@ -22,12 +22,12 @@ int main(int argc, char* argv[])
 
 	cout << "Hello!" << endl;
 
-	Display display(400, 300, "Yup, *I AM* doing just fine");
+	Display display(WIDTH, HEIGHT, "Yup, *I AM* doing just fine");
 
 	Shader shader(".\\res\\basicShader");
-	Texture texture(".\\res\\rocket.png");
+	Texture texture(".\\res\\stojadin_body_a.png");
 
-	Camera camera(vec3(0, -0.2f, -2.5), 70.0f, (float)WIDTH / HEIGHT, 0.01f, 1000);
+	Camera camera(vec3(0, 0, -5), 70.0f, (float)WIDTH / HEIGHT, 0.2f, 1000);
 
 	Transform transform;
 
@@ -46,10 +46,11 @@ int main(int argc, char* argv[])
 
 	//PYRAMID
 
-
+	/*
 	const float depth = 1;
 	const float height = 0.7f;
 
+	// NO NORMALS:
 
 	Vertex vertices[] = {
 		Vertex(vec3(-depth, -height, -depth), vec2(0, 0.2f)),
@@ -68,8 +69,11 @@ int main(int argc, char* argv[])
 	};
 
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
-	Mesh mesh2(".\\res\\nomi.obj");
+	*/
 
+	Mesh mesh2(".\\res\\stojadin2.obj");
+
+	/*
 	float backDistance = 5;
 	float backSize = 1;
 
@@ -87,8 +91,9 @@ int main(int argc, char* argv[])
 
 	Mesh backMesh(backVertices, sizeof(backVertices) / sizeof(backVertices[0]),
 		indices, sizeof(backIndices) / sizeof(backIndices[0]));
+		*/
 
-	// This was in while, but doesn't need to
+		// This was in while, but doesn't need to
 	shader.Bind();
 	texture.Bind(0);
 
@@ -102,10 +107,12 @@ int main(int argc, char* argv[])
 		NOW = SDL_GetPerformanceCounter();
 
 		deltaTime = (double)((NOW - LAST) * 1000 / SDL_GetPerformanceFrequency());
+		float dt = (float)deltaTime;
 
 		/**Rendering**/
 
-		display.ClearColorDontClearDepth(0.9f, 0.427f, 0.9f, 1);
+		display.Clear(0, 0, 0, 1);
+		//display.Clear(0.9f, 0.427f, 0.9f, 1);
 
 		shader.Update(transform, camera);
 
@@ -117,8 +124,8 @@ int main(int argc, char* argv[])
 
 		counter += 0.001f;
 		//transform.GetPos().x = sinf(counter);
-		transform.GetRot().y = counter * deltaTime;
-		transform.GetRot().z = counter * 0.3f * deltaTime;
+		transform.GetRot().y = counter;
+		transform.GetRot().z = counter * 0.3f;
 	}
 
 	return 0;

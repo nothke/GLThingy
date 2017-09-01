@@ -6,22 +6,24 @@
 
 using namespace glm;
 
-
 class Vertex
 {
 public:
-	Vertex(const glm::vec3& pos, const vec2& uv)
+	Vertex(const glm::vec3& pos, const vec2& uv, const vec3& normal)
 	{
 		this->pos = pos;
 		this->uv = uv;
+		this->normal = normal;
 	}
 
 	inline vec3* GetPos() { return &pos; };
 	inline vec2* GetUV() { return &uv; };
+	inline vec3* GetNormal() { return &normal; };
 
 private:
 	vec3 pos;
 	vec2 uv;
+	vec3 normal;
 };
 
 class Mesh
@@ -43,6 +45,7 @@ private:
 	{
 		POSITION_VB,
 		TEXCOORD_VB,
+		NORMAL_VB,
 
 		INDEX_VB,
 

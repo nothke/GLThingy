@@ -1,6 +1,8 @@
 #include "Display.h"
 #include <GL\glew.h>
 
+#define FULLSCREEN false
+
 Display::Display(int width, int height, const std::string& title)
 {
 	std::cout << "yo" << std::endl;
@@ -35,7 +37,8 @@ Display::Display(int width, int height, const std::string& title)
 	SDL_Log("Display: current display mode is %dx%dpx @ %dhz. ddpi: %d, hdpi: %d, vdpi: %d", current.w, current.h, current.refresh_rate, ddpi, hdpi, vdpi);
 
 	m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);
-	//SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	if (FULLSCREEN)
+		SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
 	m_glContext = SDL_GL_CreateContext(m_window);
 
@@ -73,6 +76,12 @@ void Display::Clear(float r, float g, float b, float a)
 {
 	glClearColor(r, g, b, a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Display::ClearColorDontClearDepth(float r, float g, float b, float a)
+{
+	glClearColor(r, g, b, a);
+	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 
