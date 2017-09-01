@@ -119,13 +119,14 @@ int main(int argc, char* argv[])
 		//backMesh.Draw();
 		mesh2.Draw();
 
-
 		display.Update();
 
 		counter += 0.001f;
 		//transform.GetPos().x = sinf(counter);
 		transform.GetRot().y = counter;
 		transform.GetRot().z = counter * 0.3f;
+
+		camera.m_position = vec3(0, 0, sinf(counter) * 10);
 	}
 
 	return 0;

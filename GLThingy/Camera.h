@@ -22,10 +22,12 @@ public:
 		return m_perspective * lookAt(m_position, m_position + m_forward, m_position + m_up);
 	}
 
+	vec3 m_position;
+
 private:
 
 	mat4 m_perspective;
-	vec3 m_position;
+	
 	vec3 m_forward;
 	vec3 m_up;
 };
