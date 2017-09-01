@@ -13,7 +13,14 @@ void main()
 
 	float l = clamp(0.5 + ndotl * 0.5, 0, 1);
 
-	vec4 brdf = texture2D(brdfMap, vec2(l, 1 - l));
+	vec3 viewDir = vec3(0, 0, 1);
+	vec3 h = normalize(viewDir - lightDir);
+	float ndoth = dot(normalOut, h);
+	float spec = pow(ndoth, 10) * ndotl;
+
+	spec = clamp(0.5 + spec * 0.5, 0, 1);
+
+	vec4 brdf = texture2D(brdfMap, vec2(spec, 1 - l));
 
 	gl_FragColor = color * brdf;
 	//gl_FragColor = color * light;
