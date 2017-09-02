@@ -1,4 +1,5 @@
 #include "Mesh.h"
+#include <iostream>
 #include <glm\vec3.hpp>
 #include <vector>
 
@@ -31,6 +32,8 @@ Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, un
 Mesh::Mesh(const std::string & fileName)
 {
 	IndexedModel model = OBJModel(fileName).ToIndexedModel();
+
+	cout << "Loaded model: " << fileName << endl;
 
 	InitMesh(model);
 }

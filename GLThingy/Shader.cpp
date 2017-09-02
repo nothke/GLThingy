@@ -39,6 +39,8 @@ Shader::Shader(const std::string & fileName)
 	// Matrix uniforms
 	m_uniforms[CAMERA_POSITION_U] = glGetUniformLocation(m_program, "cameraPosition");
 	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
+
+	std::cout << "Loaded vert/frag shader: " + fileName << std::endl;
 }
 
 void Shader::Bind()

@@ -39,14 +39,13 @@ int main(int argc, char* argv[])
 	//auto myConsole = GetConsoleWindow();
 	//ShowWindow(myConsole, 0);
 
-	cout << "Hello!" << endl;
-
-	Display display(WIDTH, HEIGHT, "Yup, *I AM* doing just fine");
+	Display display(WIDTH, HEIGHT, "Triangle -> 2.8 days later");
 
 	display.Clear(0, 0, 0, 1);
 
 	SDL_Delay(100);
 
+	// LOAD SHADER AND TEXTURES
 	Shader shader(".\\res\\basicShader");
 	Texture texture(".\\res\\stojadin_body_a.png");
 	Texture brickTexture(".\\res\\white.png");
@@ -98,34 +97,14 @@ int main(int argc, char* argv[])
 	*/
 
 	Mesh mesh2(".\\res\\stojadin2.obj");
-	Mesh meshMonkey(".\\res\\monkey3.obj");
+	Mesh meshMonkey(".\\res\\diamond.obj");
+	Mesh skysphere(".\\res\\skysphere.obj");
 
-	/*
-	float backDistance = 5;
-	float backSize = 1;
+	// ASSIGN SHADER AND TEXTURES
 
-	Vertex backVertices[] = {
-		Vertex(vec3(-backSize, -backSize, backDistance), vec2(0, 0)),
-		Vertex(vec3(-backSize, +backSize, backDistance), vec2(0, 1)),
-		Vertex(vec3(+backSize, +backSize, backDistance), vec2(1, 1)),
-		Vertex(vec3(+backSize, -backSize, backDistance), vec2(1, 0))
-	};
-
-	unsigned int backIndices[]{
-		0, 1, 2,
-		0, 2, 3
-	};
-
-	Mesh backMesh(backVertices, sizeof(backVertices) / sizeof(backVertices[0]),
-		indices, sizeof(backIndices) / sizeof(backIndices[0]));
-		*/
-
-		// This was in while, but doesn't need to
 	shader.Bind();
 
 	brickTexture.Bind(0);
-
-	//brickTexture.Bind(0);
 	brdfTexture.Bind(1);
 
 	Uint64 NOW = SDL_GetPerformanceCounter();
@@ -211,18 +190,15 @@ int main(int argc, char* argv[])
 
 		shader.Update(transform, camera);
 
-		//backMesh.Draw();
-		//texture.Bind(0);
-		//mesh2.Draw();
-		//brickTexture.Bind(0);
 		meshMonkey.Draw();
+		skysphere.Draw();
 
 		display.Update();
 
 		counter += 0.001f;
 		//transform.GetPos().x = sinf(counter);
-		transform.GetRot().y = counter;
-		//transform.GetRot().z = counter * 0.3f;
+		transform.GetRot().y = counter * 10;
+		//transform.GetRot().z = counter * 20;
 
 		camera.position.z = cameraZ;
 
